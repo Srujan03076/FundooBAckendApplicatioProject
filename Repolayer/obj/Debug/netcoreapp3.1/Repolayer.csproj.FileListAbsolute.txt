@@ -1,0 +1,16 @@
+C:\Users\Admin\Desktop\backend\Repolayer\bin\Debug\netcoreapp3.1\Repolayer.deps.json
+C:\Users\Admin\Desktop\backend\Repolayer\bin\Debug\netcoreapp3.1\Repolayer.runtimeconfig.json
+C:\Users\Admin\Desktop\backend\Repolayer\bin\Debug\netcoreapp3.1\Repolayer.runtimeconfig.dev.json
+C:\Users\Admin\Desktop\backend\Repolayer\bin\Debug\netcoreapp3.1\Repolayer.dll
+C:\Users\Admin\Desktop\backend\Repolayer\bin\Debug\netcoreapp3.1\Repolayer.pdb
+C:\Users\Admin\Desktop\backend\Repolayer\bin\Debug\netcoreapp3.1\CommonLayer.dll
+C:\Users\Admin\Desktop\backend\Repolayer\bin\Debug\netcoreapp3.1\CommonLayer.pdb
+C:\Users\Admin\Desktop\backend\Repolayer\obj\Debug\netcoreapp3.1\Repolayer.csproj.AssemblyReference.cache
+C:\Users\Admin\Desktop\backend\Repolayer\obj\Debug\netcoreapp3.1\Repolayer.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Admin\Desktop\backend\Repolayer\obj\Debug\netcoreapp3.1\Repolayer.AssemblyInfoInputs.cache
+C:\Users\Admin\Desktop\backend\Repolayer\obj\Debug\netcoreapp3.1\Repolayer.AssemblyInfo.cs
+C:\Users\Admin\Desktop\backend\Repolayer\obj\Debug\netcoreapp3.1\Repolayer.csproj.CoreCompileInputs.cache
+C:\Users\Admin\Desktop\backend\Repolayer\obj\Debug\netcoreapp3.1\Repolayer.csproj.CopyComplete
+C:\Users\Admin\Desktop\backend\Repolayer\obj\Debug\netcoreapp3.1\Repolayer.dll
+C:\Users\Admin\Desktop\backend\Repolayer\obj\Debug\netcoreapp3.1\Repolayer.pdb
+C:\Users\Admin\Desktop\backend\Repolayer\obj\Debug\netcoreapp3.1\Repolayer.genruntimeconfig.cache

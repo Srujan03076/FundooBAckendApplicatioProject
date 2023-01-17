@@ -1,0 +1,10 @@
+C:\Users\Admin\Desktop\backend\CommonLayer\bin\Debug\netcoreapp3.1\CommonLayer.deps.json
+C:\Users\Admin\Desktop\backend\CommonLayer\bin\Debug\netcoreapp3.1\CommonLayer.dll
+C:\Users\Admin\Desktop\backend\CommonLayer\bin\Debug\netcoreapp3.1\CommonLayer.pdb
+C:\Users\Admin\Desktop\backend\CommonLayer\obj\Debug\netcoreapp3.1\CommonLayer.csproj.AssemblyReference.cache
+C:\Users\Admin\Desktop\backend\CommonLayer\obj\Debug\netcoreapp3.1\CommonLayer.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Admin\Desktop\backend\CommonLayer\obj\Debug\netcoreapp3.1\CommonLayer.AssemblyInfoInputs.cache
+C:\Users\Admin\Desktop\backend\CommonLayer\obj\Debug\netcoreapp3.1\CommonLayer.AssemblyInfo.cs
+C:\Users\Admin\Desktop\backend\CommonLayer\obj\Debug\netcoreapp3.1\CommonLayer.csproj.CoreCompileInputs.cache
+C:\Users\Admin\Desktop\backend\CommonLayer\obj\Debug\netcoreapp3.1\CommonLayer.dll
+C:\Users\Admin\Desktop\backend\CommonLayer\obj\Debug\netcoreapp3.1\CommonLayer.pdb
