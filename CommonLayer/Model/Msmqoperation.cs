@@ -50,7 +50,7 @@ namespace CommonLayer.Model
                 };
                 mailMessage.From = new MailAddress("srujantesting123@gmail.com");
                 mailMessage.To.Add(new MailAddress("srujantesting123@gmail.com"));
-                mailMessage.Body = token;
+                mailMessage.Body = $"<a href=http://localhost:4200/forgotpassword/{token} click me</a>";
                 mailMessage.Subject = "FundooNote App reset Link";
                 smtpclient.Send(mailMessage);
 

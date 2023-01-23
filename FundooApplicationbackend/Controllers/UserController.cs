@@ -1,6 +1,7 @@
 ﻿using Bussiness_Layer;
 using CommonLayer;
 using CommonLayer.Model;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -19,7 +20,7 @@ namespace FundooApplicationbackend.Controllers
         {
             this.userBL = userBL;
         }
-        [HttpPost("Register")]
+        [HttpPost("register")]
         public IActionResult Registration(Userregistration user)
         {
             try
@@ -34,7 +35,7 @@ namespace FundooApplicationbackend.Controllers
                     return this.BadRequest(new { success = false, message = "Registration UnSuccessful" });
                 }
             }
-                    
+
             catch (Exception)
             {
 
@@ -86,33 +87,38 @@ namespace FundooApplicationbackend.Controllers
                 throw;
             }
         }
-        [HttpPut("Resetpassword")]
-        public IActionResult ResetPassword(string password, string confirmpassword)
+        [Authorize]
+        [HttpPut("resetPassword")]
+        public IActionResult ResetPassword(ResetPassword reset)
         {
-            try
+            if (reset.Password == reset.Confirmpassword)
             {
-                var email = User.FindFirst(ClaimTypes.Email).Value.ToString();
-                var result = userBL.ResetPassword(email,password,confirmpassword);
-                if (!result )
+                //var email = User.FindFirst(ClaimTypes.Email).Value.ToString();
+                var email = User.Claims.FirstOrDefault(E => E.Type == "Email").Value;
+                if (this.userBL.ResetPassword(reset, email))
                 {
-                    return this.BadRequest(new { success = false, message = "Enter valid password" });
+                    return Ok(new { Success = true, message = "password Reset Successfully" });
                 }
                 else
                 {
-                    return this.Ok(new { success = true, message = "Reset password is successful" });
+                    return BadRequest(new { Success = false, message = "Password Reset Unsuccesfully!" });
                 }
             }
-            catch (Exception)
+            else
             {
-
-                throw;
+                return BadRequest(new { Success = false, message = "NewPassword does not matches with ConfirmPassword" });
             }
         }
-
-
-
     }
 }
 
 
-        
+
+
+
+
+
+
+
+
+

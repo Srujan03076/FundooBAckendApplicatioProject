@@ -4,7 +4,7 @@ using System.Text;
 
 namespace CommonLayer
 {
-    class UserNotes
+   public class UserNotes
     {
         public string Title { get; set; }
 
@@ -20,6 +20,7 @@ namespace CommonLayer
 
         public bool IsArchive { get; set; }
         public bool IsPinned { get; set; }
+        public long Id { get; set; }
 
         public DateTime? CreatedAt { get; set; }
         public DateTime? ModifiedAt { get; set; }

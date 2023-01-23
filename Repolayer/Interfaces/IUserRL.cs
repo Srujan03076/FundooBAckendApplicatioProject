@@ -12,7 +12,7 @@ namespace Repolayer.Interfaces
     
         public string login(Userlogin userLogin);
         public string ForgetPassword(string email);
-       public bool ResetPassword(string email, string password, string confirmpassword);
-       public  User Registration(Userregistration user);
+        public  User Registration(Userregistration user);
+        public bool ResetPassword(ResetPassword reset, string email);
     }
 }

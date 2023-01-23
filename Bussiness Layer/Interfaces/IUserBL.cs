@@ -12,8 +12,7 @@ namespace Bussiness_Layer
         public User Registration(Userregistration user);
         public string login(Userlogin userLogin);
         public string ForgetPassword(string email);
-        public bool ResetPassword(string email, string password, string confirmpassword);
-
+        public bool ResetPassword(ResetPassword reset, string email);
     }
 }
 

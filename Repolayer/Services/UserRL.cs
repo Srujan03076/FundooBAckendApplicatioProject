@@ -104,10 +104,10 @@ namespace Repolayer.Services
 
         private string GenerateSecurityToken(string Email, long Id)
         {
-            var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["SecretKey"]));
+            var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Jwt:Key"]));
             var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
             var claims = new[] {
-                new Claim("EmailId",Email),
+                new Claim("Email",Email),
                 new Claim("Id",Id.ToString())
             };
 
@@ -142,29 +142,22 @@ namespace Repolayer.Services
             }
         }
 
-        public bool ResetPassword(string email, string password, string confirmpassword)
+        public bool ResetPassword(ResetPassword reset, string email)
         {
-            try
+            User ValidLogin = this.context.UserTable.SingleOrDefault(x => x.Email == email);
+            if (ValidLogin.Email != null)
             {
-                if (password.Equals(confirmpassword))
-                {
-                    var user = context.UserTable.Where(x => x.Email == email).FirstOrDefault();
-                    user.Password = confirmpassword;
-                    context.SaveChanges();
-                    return true;
-                }
-                else
-                {
-                    return false;
-                }
-
+                //context.UserTable.Attach(ValidLogin);
+                ValidLogin.Password = EncryptPassword(reset.Confirmpassword);
+                context.SaveChanges();
+                return true;
             }
-            catch (Exception)
+            else
             {
-
-                throw;
+                return false;
             }
         }
     }
 }
+
         
