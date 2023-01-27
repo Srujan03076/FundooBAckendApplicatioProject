@@ -21,12 +21,13 @@ namespace FundooApplicationbackend.Controllers
             this.notesBL = notesBL;
         }
         [Authorize]
-        [HttpPost]
+        [HttpPost("addnotes")]
         public IActionResult CreateANote(UserNotes notes)
         {
             try
             {
-                var result = this.notesBL.CreateNote(notes);
+                long Id= Convert.ToInt32(User.Claims.FirstOrDefault(E => E.Type == "Id").Value);
+                var result = this.notesBL.CreateNote(notes, Id);
                 if (result != null)
                 {
                     return this.Ok(new { Success = true, message = "New note created successfully ", Data = result });
@@ -59,6 +60,29 @@ namespace FundooApplicationbackend.Controllers
                     return this.BadRequest(new { Success = false, message = "Getting  notes failed" });
                     }
 
+            }
+            catch (Exception e)
+            {
+                return this.BadRequest(new { Success = false, message = e.Message, InnerException = e.InnerException });
+            }
+        }
+
+        [Authorize]
+        [HttpPut("UpdateNotes")]
+        public IActionResult UpdateNotes(UserNotes usernotes)
+        {
+            try
+            {
+                UserNotes userresponse = notesBL.UpdateNotes(usernotes);
+                if (userresponse != null)
+
+                {
+                    return this.Ok(new { Success = true, message = " Updation Succesful", });
+                }
+                else
+                {
+                    return this.BadRequest(new { Success = false, message = "Not Successful" });
+                }
             }
             catch (Exception e)
             {

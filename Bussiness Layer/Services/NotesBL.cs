@@ -16,11 +16,13 @@ namespace Bussiness_Layer.Services
             this.notesRL = notesRL;
         }
 
-        public UserNotes CreateNote(UserNotes notes)
+      
+
+        public IEnumerable<Notes> GetAllNotesData(long Id)
         {
             try
             {
-                return notesRL.CreateNote(notes);
+                return this.notesRL.GetAllNotesData(Id);
             }
             catch (Exception)
             {
@@ -28,11 +30,23 @@ namespace Bussiness_Layer.Services
             }
         }
 
-        public IEnumerable<Notes> GetAllNotesData(long Id)
+        public UserNotes UpdateNotes(UserNotes usernotes)
         {
             try
             {
-                return this.notesRL.GetAllNotesData(Id);
+                return this.notesRL.UpdateNotes( usernotes);
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        public Notes CreateNote(UserNotes notes, long Id)
+        {
+            try
+            {
+                return notesRL.CreateNote(notes,Id);
             }
             catch (Exception)
             {

@@ -8,7 +8,8 @@ namespace Bussiness_Layer
 {
    public interface INotesBL
     {
-        public UserNotes CreateNote(UserNotes notes);
+        public Notes CreateNote(UserNotes notes, long Id);
         IEnumerable<Notes> GetAllNotesData(long Id);
+        public UserNotes UpdateNotes(UserNotes usernotes);
     }
 }

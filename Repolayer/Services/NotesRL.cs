@@ -21,7 +21,7 @@ namespace Repolayer.Services
             this._config = _config;
         }
 
-        public UserNotes CreateNote(UserNotes notes)
+        public Notes CreateNote(UserNotes notes,long Id)
         {
             try
             {
@@ -34,19 +34,20 @@ namespace Repolayer.Services
                 newNotes.IsTrash = notes.IsTrash;
                 newNotes.IsArchive = notes.IsArchive;
                 newNotes.IsPinned = notes.IsPinned;
-                newNotes.Id = notes.Id;
-
-                //Adding the data to database
+                newNotes.CreatedAt = notes.CreatedAt;
+                newNotes.ModifiedAt = notes.ModifiedAt;
+                newNotes.Id = Id;
+               //Adding the data to database
                 this.context.NoteTable.Add(newNotes);
                 //Save the changes in database
                 int result = this.context.SaveChanges();
                 if (result > 0)
                 {
-                    return notes;
+                    return newNotes;
                 }
                 else
                 {
-                    return notes;
+                    return default;
                 }
             }
             catch (Exception e)
@@ -76,8 +77,44 @@ namespace Repolayer.Services
                 throw;
             }
         }
+
+        public UserNotes UpdateNotes(UserNotes usernotes)
+        {
+
+            var UpdateNote = this.context.NoteTable.Where(Y => Y.Id == usernotes.Id).FirstOrDefault();
+            if (UpdateNote != null)
+            {
+                UpdateNote.Title = usernotes.Title;
+                UpdateNote.Description = usernotes.Description;
+                UpdateNote.Reminder = usernotes.Reminder;
+                UpdateNote.Color = usernotes.Color;
+                UpdateNote.Image = usernotes.Image;
+                UpdateNote.IsArchive = usernotes.IsArchive;
+                UpdateNote.IsPinned = usernotes.IsPinned;
+                UpdateNote.IsTrash = usernotes.IsTrash;
+                UpdateNote.CreatedAt = usernotes.CreatedAt;
+
+
+            }
+            var result = this.context.SaveChanges();
+            if (result > 0)
+            {
+                return usernotes;
+            }
+            else
+            {
+                return default;
+            }
+        }
     }
 }
+
+
+
+
+
+
+
 
 
 

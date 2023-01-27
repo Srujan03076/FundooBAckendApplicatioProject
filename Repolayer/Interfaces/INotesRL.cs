@@ -8,7 +8,9 @@ namespace Repolayer.Interfaces
 {
     public interface INotesRL
     {
-       public  UserNotes CreateNote(UserNotes notes);
+
         public IEnumerable<Notes> GetAllNotesData(long Id);
+        public UserNotes UpdateNotes(UserNotes usernotes);
+        public Notes CreateNote(UserNotes notes,long Id);
     }
 }
