@@ -1,4 +1,5 @@
 ﻿using CommonLayer;
+using CommonLayer.Model;
 using Repolayer.Entities;
 using System;
 using System.Collections.Generic;
@@ -9,8 +10,9 @@ namespace Repolayer.Interfaces
     public interface INotesRL
     {
 
-        public IEnumerable<Notes> GetAllNotesData(long Id);
-        public UserNotes UpdateNotes(UserNotes usernotes);
+        public List<Notes> GetAllNotesData(long Id);
         public Notes CreateNote(UserNotes notes,long Id);
+        public Notes UpdateNotes(long notesId, UpdateNotes updateNotes);
+        public bool DeleteNotes(long id, long notesId);
     }
 }

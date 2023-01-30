@@ -1,4 +1,5 @@
 ﻿using CommonLayer;
+using CommonLayer.Model;
 using Repolayer.Entities;
 using Repolayer.Interfaces;
 using System;
@@ -16,9 +17,9 @@ namespace Bussiness_Layer.Services
             this.notesRL = notesRL;
         }
 
-      
 
-        public IEnumerable<Notes> GetAllNotesData(long Id)
+
+        public List<Notes> GetAllNotesData(long Id)
         {
             try
             {
@@ -30,11 +31,11 @@ namespace Bussiness_Layer.Services
             }
         }
 
-        public UserNotes UpdateNotes(UserNotes usernotes)
+        public Notes UpdateNotes(long notesId, UpdateNotes updateNotes)
         {
             try
             {
-                return this.notesRL.UpdateNotes( usernotes);
+                return this.notesRL.UpdateNotes(notesId, updateNotes);
             }
             catch (Exception)
             {
@@ -50,6 +51,19 @@ namespace Bussiness_Layer.Services
             }
             catch (Exception)
             {
+                throw;
+            }
+        }
+        public bool DeleteNotes(long id, long notesId)
+        {
+            try
+            {
+
+                return notesRL.DeleteNotes(id, notesId);
+            }
+            catch (Exception)
+            {
+
                 throw;
             }
         }

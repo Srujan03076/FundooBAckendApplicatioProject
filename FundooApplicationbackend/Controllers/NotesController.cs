@@ -1,5 +1,6 @@
 ﻿using Bussiness_Layer;
 using CommonLayer;
+using CommonLayer.Model;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -45,11 +46,12 @@ namespace FundooApplicationbackend.Controllers
         }
 
         [Authorize]
-        [HttpGet]
-        public IActionResult GetAllNotesData(long Id)
+        [HttpGet("get")]
+        public IActionResult GetAllNotesData()
         {
             try
             {
+                long Id = Convert.ToInt32(User.Claims.FirstOrDefault(E => E.Type == "Id").Value);
                 var result = this.notesBL.GetAllNotesData(Id);
                 if (result != null)
                 {
@@ -68,16 +70,16 @@ namespace FundooApplicationbackend.Controllers
         }
 
         [Authorize]
-        [HttpPut("UpdateNotes")]
-        public IActionResult UpdateNotes(UserNotes usernotes)
+        [HttpPut("updateNotes")]
+        public IActionResult UpdateNotes(long notesId, UpdateNotes updateNotes)
         {
             try
             {
-                UserNotes userresponse = notesBL.UpdateNotes(usernotes);
-                if (userresponse != null)
+              var result = notesBL.UpdateNotes(notesId,updateNotes);
+                if (result != null)
 
                 {
-                    return this.Ok(new { Success = true, message = " Updation Succesful", });
+                    return this.Ok(new { Success = true, message = " Updation Succesful", data= result });
                 }
                 else
                 {
@@ -89,6 +91,29 @@ namespace FundooApplicationbackend.Controllers
                 return this.BadRequest(new { Success = false, message = e.Message, InnerException = e.InnerException });
             }
         }
+        [HttpDelete]
+        [Route("DeleteNote")]
+        public IActionResult Deletenote(long notesid)
+        {
+            try
+            {
+                long Id = Convert.ToInt32(User.Claims.FirstOrDefault(e => e.Type == "Id").Value);
+                var result = notesBL.DeleteNotes(notesid, Id);
+                if (result != null)
+                {
+                    return Ok(new { success = true, message = "notes Deleted succesfully" });
+                }
+                else
+                {
+                    return BadRequest(new { success = false, message = "notes does not Deleted " });
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
     }
 }
 

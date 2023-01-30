@@ -1,4 +1,5 @@
 ﻿using CommonLayer;
+using CommonLayer.Model;
 using Microsoft.Extensions.Configuration;
 using Repolayer.Context;
 using Repolayer.Entities;
@@ -57,7 +58,31 @@ namespace Repolayer.Services
             }
         }
 
-        public IEnumerable<Notes> GetAllNotesData(long Id)
+        public bool DeleteNotes(long id, long notesId)
+        {
+            try
+            {
+                var result = context.NoteTable.Where(e => e.Id == id && e.NotesId == notesId).FirstOrDefault();
+
+                if (result != null)
+                {
+                    context.NoteTable.Remove(result);
+                    context.SaveChanges();
+
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        public List<Notes> GetAllNotesData(long Id)
         {
             try
             {
@@ -78,33 +103,34 @@ namespace Repolayer.Services
             }
         }
 
-        public UserNotes UpdateNotes(UserNotes usernotes)
+       
+
+        public Notes UpdateNotes(long notesId, UpdateNotes updateNotes)
         {
-
-            var UpdateNote = this.context.NoteTable.Where(Y => Y.Id == usernotes.Id).FirstOrDefault();
-            if (UpdateNote != null)
+            try
             {
-                UpdateNote.Title = usernotes.Title;
-                UpdateNote.Description = usernotes.Description;
-                UpdateNote.Reminder = usernotes.Reminder;
-                UpdateNote.Color = usernotes.Color;
-                UpdateNote.Image = usernotes.Image;
-                UpdateNote.IsArchive = usernotes.IsArchive;
-                UpdateNote.IsPinned = usernotes.IsPinned;
-                UpdateNote.IsTrash = usernotes.IsTrash;
-                UpdateNote.CreatedAt = usernotes.CreatedAt;
-
+                var note = context.NoteTable.FirstOrDefault(r =>  r.NotesId == notesId);
+                if (note != null)
+                {
+                    note.Title = updateNotes.Title;
+                    note.Description = updateNotes.Description;
+                    note.Color = updateNotes.Color;
+                    note.Image = updateNotes.Image;
+                    note.ModifiedAt = updateNotes.ModifierAt;
+                    note.Id = notesId;
+                    context.NoteTable.Update(note);
+                    int result = context.SaveChanges();
+                    return note;
+                }
+                else
+                    return null;
 
             }
-            var result = this.context.SaveChanges();
-            if (result > 0)
+            catch (Exception)
             {
-                return usernotes;
+                throw;
             }
-            else
-            {
-                return default;
-            }
+           
         }
     }
 }
