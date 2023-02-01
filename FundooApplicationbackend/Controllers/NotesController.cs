@@ -13,6 +13,7 @@ namespace FundooApplicationbackend.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]//for all method need token (authorization)
     public class NotesController : ControllerBase
     {
 
@@ -21,7 +22,7 @@ namespace FundooApplicationbackend.Controllers
         {
             this.notesBL = notesBL;
         }
-        [Authorize]
+       
         [HttpPost("addnotes")]
         public IActionResult CreateANote(UserNotes notes)
         {
@@ -45,8 +46,7 @@ namespace FundooApplicationbackend.Controllers
             }
         }
 
-        [Authorize]
-        [HttpGet("get")]
+        [HttpGet("getnotesdata")]
         public IActionResult GetAllNotesData()
         {
             try
@@ -69,13 +69,14 @@ namespace FundooApplicationbackend.Controllers
             }
         }
 
-        [Authorize]
+      
         [HttpPut("updateNotes")]
         public IActionResult UpdateNotes(long notesId, UpdateNotes updateNotes)
         {
             try
             {
-              var result = notesBL.UpdateNotes(notesId,updateNotes);
+               long Id = Convert.ToInt32(User.Claims.FirstOrDefault(E => E.Type == "Id").Value);
+                var result = notesBL.UpdateNotes(notesId,Id,updateNotes);
                 if (result != null)
 
                 {
@@ -91,21 +92,127 @@ namespace FundooApplicationbackend.Controllers
                 return this.BadRequest(new { Success = false, message = e.Message, InnerException = e.InnerException });
             }
         }
-        [HttpDelete]
-        [Route("DeleteNote")]
+        
+        [HttpDelete("deleteNote")]
+        
         public IActionResult Deletenote(long notesid)
         {
             try
             {
                 long Id = Convert.ToInt32(User.Claims.FirstOrDefault(e => e.Type == "Id").Value);
                 var result = notesBL.DeleteNotes(notesid, Id);
-                if (result != null)
+                if (result == true)
                 {
                     return Ok(new { success = true, message = "notes Deleted succesfully" });
                 }
                 else
                 {
                     return BadRequest(new { success = false, message = "notes does not Deleted " });
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+      
+        [HttpPut("trash")]
+        public IActionResult IsTrash(int notesId)
+        {
+            try
+            {
+                long Id = Convert.ToInt32(User.Claims.FirstOrDefault(e => e.Type == "Id").Value);
+                var result = this.notesBL.IsTrash(notesId);
+                if (result == true)
+                {
+                    return Ok(new { Success = true, message = "Note moved to trash Successfully." });
+                }
+                else
+                {
+                    return BadRequest(new { Success = false, message = "Unsuccesful" });
+                }
+            }
+            catch (Exception e)
+            {
+                return this.BadRequest(new { Success = false, message = e.Message, InnerException = e.InnerException });
+            }
+        }
+       
+        [HttpGet("getAllTrash")]
+        
+        public IActionResult GetAllTrash()
+        {
+            try
+            {
+                long Id = Convert.ToInt32(User.Claims.FirstOrDefault(e => e.Type == "Id").Value);///////
+                var result = this.notesBL.GetAllTrash(Id);
+                if (result != null)
+                {
+                    return Ok(new { success = true, message = "Trash data found", data = result });
+
+                }
+                else
+                {
+                    return BadRequest(new { success = false, message = "Trash data not found" });
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+        
+        [HttpDelete("permanentlydeletetrash")]
+        public IActionResult DeleteTrashforever(long notesId)
+        {
+            long Id = Convert.ToInt32(User.Claims.FirstOrDefault(e => e.Type == "Id").Value);
+            var result = this.notesBL.DeleteTrash(notesId);
+            if (result == true)
+            {
+                return Ok(new { success = true, message = "Data/Message is deleted from trash" });
+            }
+            else
+            {
+                return BadRequest(new { success = false, message = "Data/Message is not deleted from trash" });
+
+            }
+        }
+
+        
+        [HttpPut("archive")]
+        public IActionResult ArchiveORUnarchive(long notesId)
+        {
+
+            long Id = Convert.ToInt32(User.Claims.FirstOrDefault(e => e.Type == "Id").Value);
+            var result = this.notesBL.ArchiveORNot(notesId);
+            if (result == true)
+            {
+                return Ok(new { success = true, message = "Note is Archieved" });
+            }
+            else
+            {
+                return BadRequest(new { success = false, message = "Note is not Archieved" });
+
+            }
+        }
+       
+        [HttpGet]
+        [Route("getAllArchive")]
+        public IActionResult GetAllArchieve()
+        {
+            try
+            {
+                long Id = Convert.ToInt32(User.Claims.FirstOrDefault(e => e.Type == "Id").Value);///////
+                var result = this.notesBL.GetAllArchieve(Id);
+                if (result != null)
+                {
+                    return Ok(new { success = true, message = "Get archived data", data = result });
+
+                }
+                else
+                {
+                    return BadRequest(new { success = false, message = "Failed to  get archived data" });
                 }
             }
             catch (Exception)

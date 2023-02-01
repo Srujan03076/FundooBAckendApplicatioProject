@@ -105,7 +105,7 @@ namespace Repolayer.Services
 
        
 
-        public Notes UpdateNotes(long notesId, UpdateNotes updateNotes)
+        public Notes UpdateNotes(long notesId,long Id, UpdateNotes updateNotes)
         {
             try
             {
@@ -117,7 +117,7 @@ namespace Repolayer.Services
                     note.Color = updateNotes.Color;
                     note.Image = updateNotes.Image;
                     note.ModifiedAt = updateNotes.ModifierAt;
-                    note.Id = notesId;
+                    note.Id = Id;
                     context.NoteTable.Update(note);
                     int result = context.SaveChanges();
                     return note;
@@ -131,6 +131,122 @@ namespace Repolayer.Services
                 throw;
             }
            
+        }
+        public bool IsTrash(long notesId)
+        {
+            try
+            {
+                var validId = this.context.NoteTable.FirstOrDefault(e => e.NotesId == notesId);
+
+                if (validId != null)
+                {
+                    validId.IsTrash = true;
+                    validId.IsArchive = false;
+                }
+                int result = this.context.SaveChanges();
+
+                if (result > 0)
+                {
+                    return true;
+                }
+
+                else
+                {
+                    return false;
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+        public bool DeleteTrash(long notesId)
+        {
+            try
+            {
+                Notes result = this.context.NoteTable.FirstOrDefault(e => e.NotesId == notesId);
+                if (result.IsTrash == true)
+                {
+                    context.NoteTable.Remove(result);
+                    this.context.SaveChanges();
+                    return false;
+                }
+                else
+                {
+                    result.IsTrash = true;
+                    this.context.SaveChanges();
+                    return true;
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        public bool ArchiveORNot(long notesId)
+        {
+            try
+            {
+                Notes result = this.context.NoteTable.FirstOrDefault(e => e.NotesId == notesId);
+                if (result.IsArchive == true)
+                {
+                    result.IsArchive = false;
+                    this.context.SaveChanges();
+                    return false;
+                }
+                else
+                {
+                    result.IsArchive = true;
+                    this.context.SaveChanges();
+                    return true;
+                }
+
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+        public IEnumerable<Notes> GetAllArchieve(long Id)
+        {
+            try
+            {
+                var result = context.NoteTable.Where(r => r.Id == Id && r.IsArchive == true);//after adding the note only we hava to use note entity table
+                if (result != null)
+                {
+                    return result;
+                }
+                else
+                {
+                    return null;
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+
+        }
+        public IEnumerable<Notes> GetAllTrash(long Id)
+        {
+            try
+            {
+                var result = context.NoteTable.Where(r => r.Id == Id && r.IsTrash == true);//after adding the note only we hava to use note entity table
+                if (result != null)
+                {
+                    return result;
+                }
+                else
+                {
+                    return null;
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+
         }
     }
 }
